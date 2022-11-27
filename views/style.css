@@ -1,0 +1,13 @@
+.form {
+    font-style: normal;
+}
+
+.h1 {
+    font-size: 30px;
+    font-family: "Courier 10 Pitch", monospace;
+    font-style: italic;
+}
+
+.body {
+    background-color: lightgray;
+}
