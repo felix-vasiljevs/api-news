@@ -10,7 +10,7 @@ use jcobhams\NewsApi\NewsApi;
 use App\Controllers\BaseController;
 use App\ApiClient;
 
-$apikey = $_ENV["WEATHER_API_KEY"];
+$apikey = $_ENV["NEWS_API_KEY"];
 $newsApi = new NewsApi($apikey);
 $greeting = "hello";
 
