@@ -12,7 +12,7 @@ class IndexArticleService
 
     public function __construct()
     {
-        $this->apiKey = new NewsApi("ea1353833dfe45658d0fe2c3f7c77a9c");
+        $this->apiKey = new NewsApi($_ENV["API_KEY"]);
     }
 
     public function execute(string $search, ?string $category = null): ArticlesCollections
