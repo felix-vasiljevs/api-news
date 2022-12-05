@@ -18,7 +18,8 @@ class ArticleController
         return new Template(
             'articles/index.html.twig',
             [
-                'articles' => $articles->get()
+                'articles' => $articles->get(),
+                'searchValue' => $search
             ]
         );
     }

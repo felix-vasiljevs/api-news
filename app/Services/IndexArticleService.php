@@ -20,16 +20,19 @@ class IndexArticleService
         $articlesApiResponse = $this->getArticles($search, $category);
 
         $articles = new ArticlesCollections();
-
+        $count = 0;
         foreach ($articlesApiResponse->articles as $article) {
-            $articles->add(new Article(
-                $article->author,
-                $article->title,
-                $article->description,
-                $article->url,
-                $article->urlToImage,
-                $article->publishedAt
-            ));
+            if ($count < 15) {
+                $articles->add(new Article(
+                    $article->author,
+                    $article->title,
+                    $article->description,
+                    $article->url,
+                    $article->urlToImage,
+                    $article->publishedAt
+                ));
+            }
+            $count++;
         }
         return $articles;
     }

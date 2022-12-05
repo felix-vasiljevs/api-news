@@ -6,36 +6,28 @@ use Carbon\Carbon;
 
 class Article
 {
-    private ?string $author;
     private string $title;
     private string $description;
     private string $url;
-    private ?string $urlToImage;
     private string $publishedAt;
+    private ?string $author;
+    private ?string $urlToImage;
 
     public function __construct(
-        ?string $author,
         string $title,
         string $description,
         string $url,
-        ?string $urlToImage,
-        string $publishedAt
+        string $publishedAt,
+        ?string $author,
+        ?string $urlToImage
     )
     {
         $this->title = $title;
         $this->description = $description;
         $this->url = $url;
         $this->urlToImage = $urlToImage;
-        $this->publishedAt = $publishedAt;
         $this->author = $author;
-    }
-
-    public function getAuthor(): ?string
-    {
-        if ($this->author === null) {
-            return 'Unknown Author';
-        }
-        return $this->author;
+        $this->publishedAt = $publishedAt;
     }
 
     public function getTitle(): string
@@ -53,6 +45,19 @@ class Article
         return $this->url;
     }
 
+    public function getPublishedAt(): string
+    {
+        return Carbon::createFromDate($this->publishedAt)->format('Y-m-d');
+    }
+
+    public function getAuthor(): ?string
+    {
+        if ($this->author === null) {
+            return 'Unknown Author';
+        }
+        return $this->author;
+    }
+
     public function getUrlToImage(): ?string
     {
         $image = $this->urlToImage;
@@ -61,10 +66,5 @@ class Article
             return '/public/images/no-image.jpg';
         }
         return $image;
-    }
-
-    public function getPublishedAt(): string
-    {
-        return Carbon::createFromDate($this->publishedAt)->format('Y-m-d');
     }
 }
