@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
+use App\DataBase;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DriverManager;
 
 class RegisterService
 {
@@ -11,26 +11,30 @@ class RegisterService
 
     public function __construct()
     {
-        $connectionParams = [
-            'dbname' => 'news-api',
-            'user' => 'root',
-            'password' => $_ENV['MYSQL_PASSWORD'],
-            'host' => $_ENV['MYSQL_HOST'],
-            'driver' => 'pdo_mysql',
-        ];
-        $this->connection = DriverManager::getConnection($connectionParams);
+        $this->connection = DataBase::getConnection();
     }
 
-    public function execute(RegisterServiceRequest $request)
+    public function check(string $email): bool
+    {
+        $fetchEmail = $this->connection->fetchAllKeyValue("SELECT id, email FROM 'news-api'.users");
+
+        if (isset($email, $fetchEmail)) {
+            return true;
+        }
+        return false;
+    }
+
+    public function execute(RegisterServiceRequest $request): Connection
     {
         $this->connection->insert(
             'users',
-        [
-            'name' => $request->getName(),
-            'email' => $request->getEmail(),
-            'password' => $request->getPassword(),
-            'confirmPassword' => $request->getConfirmedPassword()
-        ]);
-        // insert into database
+            [
+                'name' => $request->getName(),
+                'email' => $request->getEmail(),
+                'password' => $request->getPassword(),
+                'confirmedPassword' => $request->getConfirmedPassword()
+            ]
+        );
+        return $this->connection;
     }
 }

@@ -9,7 +9,7 @@ class Article
     private string $title;
     private string $description;
     private string $url;
-    private string $publishedAt;
+    private ?string $publishedAt;
     private ?string $author;
     private ?string $urlToImage;
 
@@ -17,7 +17,7 @@ class Article
         string $title,
         string $description,
         string $url,
-        string $publishedAt,
+        ?string $publishedAt,
         ?string $author,
         ?string $urlToImage
     )
@@ -45,8 +45,11 @@ class Article
         return $this->url;
     }
 
-    public function getPublishedAt(): string
+    public function getPublishedAt(): ?string
     {
+        if ($this->publishedAt === null) {
+            return 'Unknown published date';
+        }
         return Carbon::createFromDate($this->publishedAt)->format('Y-m-d');
     }
 
@@ -60,11 +63,9 @@ class Article
 
     public function getUrlToImage(): ?string
     {
-        $image = $this->urlToImage;
-
-        if ($image === null) {
+        if ($this->urlToImage === null) {
             return '/public/images/no-image.jpg';
         }
-        return $image;
+        return $this->urlToImage;
     }
 }

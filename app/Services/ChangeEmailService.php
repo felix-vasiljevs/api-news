@@ -2,12 +2,9 @@
 
 namespace App\Services;
 
-use Doctrine\DBAL\DriverManager;
-use Dotenv\Dotenv;
-
-class ForgotPasswordService
+class ChangeEmailService
 {
-    public function __construct()
+    public function showForm()
     {
         $dotenv = Dotenv\Dotenv::create('users');
         $dotenv->required(['DB_HOST', 'DB_NAME', 'DB_USER', 'DB_PASS']);
@@ -22,14 +19,14 @@ class ForgotPasswordService
         $this->connection = DriverManager::getConnection($connectionParams);
     }
 
-    public function create(RegisterServiceRequest $request)
+    public function change()
     {
-        $this->connection->insert(
-            'users',
+        $connecting = $this->connection->executeQuery(
+            'SELECT id FROM `news-api`.users WHERE email=? AND password=?',
             [
-                'password' => $request->getPassword(),
-                'passwordConfirmation' => $request->getPassword(),
-            ]);
-        // insert into database
+                'email' => $request->getEmail(),
+                'password' => $request->getPassword()
+            ]
+        );
     }
 }

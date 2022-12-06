@@ -2,11 +2,10 @@
 
 namespace App\Controllers;
 
+use App\Redirect;
 use App\Services\LoginService;
 use App\Services\LoginServiceRequest;
 use App\Template;
-use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
 
 class LoginController
 {
@@ -15,11 +14,8 @@ class LoginController
         return new Template('login.twig');
     }
 
-    public function logIn(): Template
+    public function logIn(): Redirect
     {
-        if (!$_POST['password']) {
-            return new Template('login.twig', ['password' => false]);
-        }
         $loginService = new LoginService();
         $loginService->execute(
             new LoginServiceRequest(
@@ -28,14 +24,10 @@ class LoginController
             )
         );
 
-        return new Template('views/login.twig');
-    }
+        if (!$_POST['email'] || !$_POST['password']) {
+            return new Redirect('login.twig');
+        }
 
-    public function sessionStart()
-    {
-        $loader = new FilesystemLoader('../views');
-
-        $twig = new Environment($loader);
-        $twig->addGlobal('session', $_SESSION['id']);
+        return new Redirect('/');
     }
 }

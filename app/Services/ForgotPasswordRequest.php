@@ -8,7 +8,11 @@ class ForgotPasswordRequest
     private string $password;
     private string $confirmPassword;
 
-    public function __construct(string $email, string $password, string $confirmPassword)
+    public function __construct(
+        string $email,
+        string $password,
+        string $confirmPassword
+    )
     {
         $this->email = $email;
         $this->password = $password;
